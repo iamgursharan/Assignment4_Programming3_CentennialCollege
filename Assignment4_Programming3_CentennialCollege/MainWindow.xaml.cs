@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
+/*
+ * Name: Gursharan Singh
+ * Description: This is the main window class that shows the query related to datagrid
+ * Version: 1.2- Added the searchTextBox_MouseEnter and searchTextBox_DoubleClick to handle mouse event
+ */
 namespace Assignment4_Programming3_CentennialCollege
 {
     /// <summary>
@@ -20,9 +13,47 @@ namespace Assignment4_Programming3_CentennialCollege
     /// </summary>
     public partial class MainWindow : Window
     {
+        BaseballEntities entities = new BaseballEntities();
         public MainWindow()
         {
             InitializeComponent();
+            baseballPlayersDatagrid.ItemsSource = entities.Players.ToList();
+        }
+
+        /// <summary>
+        /// This is the resultBtn_Click method that shows the query result in the datagrid
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void resultBtn_Click(object sender, RoutedEventArgs e)
+        {
+            String searchPlayer = searchTextBox.Text.ToUpper();
+            var item = from player in entities.Players.ToList()
+                       select player;
+            item = item.Where(player => player.LastName.ToUpper().Contains(searchPlayer));
+            baseballPlayersDatagrid.ItemsSource = item;
+        }
+
+        /// <summary>
+        /// This method resets the text of searchTextBox to Italics
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void searchTextBox_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            searchTextBox.FontStyle = FontStyles.Italic;
+            searchTextBox.Text = "Double click to enter text";
+        }
+
+        /// <summary>
+        /// This method changes the text of searchTextBox to empty string
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void searchTextBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            searchTextBox.FontStyle = FontStyles.Normal;
+            searchTextBox.Text = "";
         }
     }
 }
