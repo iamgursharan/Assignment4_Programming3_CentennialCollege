@@ -4,7 +4,7 @@ using System.Windows;
 /*
  * Name: Gursharan Singh
  * Description: This is the main window class that shows the query related to datagrid
- * Version: 1.2- Added the searchTextBox_MouseEnter and searchTextBox_DoubleClick to handle mouse event
+ * Version: 1.3- Added the resetBtn_Click method 
  */
 namespace Assignment4_Programming3_CentennialCollege
 {
@@ -14,6 +14,7 @@ namespace Assignment4_Programming3_CentennialCollege
     public partial class MainWindow : Window
     {
         BaseballEntities entities = new BaseballEntities();
+       
         public MainWindow()
         {
             InitializeComponent();
@@ -55,5 +56,15 @@ namespace Assignment4_Programming3_CentennialCollege
             searchTextBox.FontStyle = FontStyles.Normal;
             searchTextBox.Text = "";
         }
-    }
+
+        /// <summary>
+        /// This is the reset button that returns the user the complete list of players
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void resetBtn_Click(object sender, RoutedEventArgs e)
+        {
+            baseballPlayersDatagrid.ItemsSource = entities.Players.Local;
+        }
+    } // class ends
 }
